@@ -1,6 +1,8 @@
 import { Sortable, type SortableProps } from "./components/Sortable";
 
-const items: SortableProps["items"] = [
+type KEYS = "react" | "vue" | "angular" | "svelte" | "ember";
+
+const items: SortableProps<KEYS>["items"] = [
   { key: "react", label: "React" },
   { key: "vue", label: "Vue" },
   { key: "angular", label: "Angular" },
@@ -8,14 +10,14 @@ const items: SortableProps["items"] = [
   { key: "ember", label: "Ember" },
 ];
 
-const initialKeyCheckeds: SortableProps["initialKeyCheckeds"] = [
+const initialKeyCheckeds: SortableProps<KEYS>["initialKeyCheckeds"] = [
   "react",
   "angular",
 ];
 
 function App() {
   return (
-    <Sortable
+    <Sortable<KEYS>
       initialKeyCheckeds={initialKeyCheckeds}
       items={items}
       onSort={(allItems, checktedItems) => {

@@ -2,37 +2,37 @@ import { ReactNode, useState } from "react";
 import * as S from "./styles";
 import { Grip } from "lucide-react";
 
-type ItemSortable = {
-  key: string;
+type ItemSortable<TKey = string> = {
+  key: TKey;
   label: string;
 };
 
-export type SortableProps = {
-  items: ItemSortable[];
-  initialKeyCheckeds: string[];
+export type SortableProps<TKey = string> = {
+  items: ItemSortable<TKey>[];
+  initialKeyCheckeds: TKey[];
   onSort: (
-    allitemsSorted: ItemSortable[],
-    onlyCheckedSorted: ItemSortable[]
+    allitemsSorted: ItemSortable<TKey>[],
+    onlyCheckedSorted: ItemSortable<TKey>[]
   ) => void;
   showOnlyChecked?: boolean;
   renderItem?: (props: ItemProps) => ReactNode;
   forceSort?: boolean;
 };
 
-type Item = ItemSortable & {
+type Item<TKey = string> = ItemSortable<TKey> & {
   checked: boolean;
 };
 
-export function Sortable({
+export function Sortable<TKey = string>({
   initialKeyCheckeds,
   items,
   onSort,
   showOnlyChecked = false,
   renderItem,
   forceSort,
-}: SortableProps) {
-  const [sortedItems, setSortedItems] = useState<Item[]>(() => {
-    const mappedItems: Item[] = items.map((item) => ({
+}: SortableProps<TKey>) {
+  const [sortedItems, setSortedItems] = useState<Item<TKey>[]>(() => {
+    const mappedItems: Item<TKey>[] = items.map((item) => ({
       ...item,
       checked: initialKeyCheckeds.includes(item.key),
     }));
@@ -41,7 +41,7 @@ export function Sortable({
   });
 
   const toggleCheckbox = (label: string) => {
-    const newItems: Item[] = sortedItems.map((item) =>
+    const newItems: Item<TKey>[] = sortedItems.map((item) =>
       item.label === label ? { ...item, checked: !item.checked } : item
     );
 
